@@ -84,7 +84,7 @@ class _HomeViewState extends State<HomeView> {
                         },
                       ),
                       onLongPress: () {
-                        controller.removerItem(index);
+                        controller.removerItem(index, widget.username);
                       },
                       onTap: () {
                         _showEditDialog(context, controller, item);

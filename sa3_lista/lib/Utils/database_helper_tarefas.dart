@@ -3,13 +3,13 @@ import 'package:sa3_lista/Model/tarefa.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelperTarefas {
-  late Database _database;
+  late Database _db;
 
   Future<void> initializeDatabase() async {
     String path = await getDatabasesPath();
-    path = join(path, 'tarefas.db');
+    path = join(path, 'authentication.db');
 
-    _database = await openDatabase(path, version: 1, onCreate: _createDb);
+    _db = await openDatabase(path, version: 1, onCreate: _createDb);
   }
 
   void _createDb(Database db, int newVersion) async {
@@ -25,7 +25,7 @@ class DatabaseHelperTarefas {
   }
 
   Future<List<Tarefa>> getTarefasByUsername(String username) async {
-    final List<Map<String, dynamic>> maps = await _database.query(
+    final List<Map<String, dynamic>> maps = await _db.query(
       'tarefa',
       where: 'username = ?',
       whereArgs: [username],
@@ -37,11 +37,11 @@ class DatabaseHelperTarefas {
   }
 
   Future<void> insertTarefa(Tarefa tarefa) async {
-    await _database.insert('tarefa', tarefa.toMap());
+    await _db.insert('tarefa', tarefa.toMap());
   }
 
   Future<void> updateTarefa(Tarefa tarefa) async {
-    await _database.update(
+    await _db.update(
       'tarefa',
       tarefa.toMap(),
       where: 'id = ?',
@@ -50,7 +50,7 @@ class DatabaseHelperTarefas {
   }
 
   Future<void> deleteTarefa(int id) async {
-    await _database.delete(
+    await _db.delete(
       'tarefa',
       where: 'id = ?',
       whereArgs: [id],
